@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #include "ProjectDefines.h"
 #include "EarthGrid.h"
@@ -9,76 +10,108 @@ using namespace std;
 using namespace project_defines;
 using namespace earth_constants;
 
-const int NUM_OF_LATITUDE = 2 * MAX_LATITUDE / NAME_PARAMETER;
-const int NUM_OF_LONGITUDE = 2 * MAX_LONGITUDE / NAME_PARAMETER;
+//const int NUM_OF_LATITUDE = 2 * MAX_LATITUDE / NAME_PARAMETER;
+//const int NUM_OF_LONGITUDE = 2 * MAX_LONGITUDE / NAME_PARAMETER;
 
 /*int discrete_earth[NUM_OF_LATITUDE][NUM_OF_LONGITUDE] = { 0 };
 vector<Rectangle> population;
 vector<Rectangle> nextPopulation;
 */
 
+vector<Rectangle> population;
+vector<Rectangle> nextPopulation;
+
 int main()
 {
 	cout << "Running..." << endl;	
-
+        EarthGrid grid(2*MAX_LONGITUDE / GRID_SIZE, 2*MAX_LATITUDE / GRID_SIZE);
 	for (int i = 0; i < NUM_POINTS; ++i) {
 		GeoPoint p = RandomPointGenerator::GetInstance().GetRandomPoint();
-
-		p.latitude = lat(gen);
-		p.longitude = lon(gen);
-
-		int latIdx = static_cast<int>((p.latitude + MAX_LATITUDE) / NAME_PARAMETER);
-		int lonIdx = static_cast<int>((p.longitude + MAX_LONGITUDE) / NAME_PARAMETER);
-		//cout << p.latitude << " " << p.longitude << " " << latIdx << " " << lonIdx <<endl;
-		++discrete_earth[latIdx][lonIdx];
+                grid.AddPoint(p);
 		if (0 == (i % NUM_LOG)) {
 			cout << "I = " << i << endl;
 		}
 	}
 
-	cout << "Check Earth" << endl;
-	int emptyCount = 0;
-	for (int i = 0; i < NUM_OF_LATITUDE; ++i) {
-		for (int j = 0; j < NUM_OF_LONGITUDE; ++j) {
-			if (0 == discrete_earth[i][j]) {
-				++emptyCount;
-				//cout << "No points at " << i << " " << j << endl;
-			}
-		}
-	}
 
-	population.reserve(POPULATION_COUNT);
+        population.reserve(POPULATION_COUNT);
 	nextPopulation.reserve(POPULATION_COUNT);
-	for (int i = 0; i < POPULATION_COUNT; ++i) {
-		Rectangle rect;
-		std::uniform_real_distribution<> angle(0, _Pi);
-		rect.p1.latitude = lat(gen);
-		rect.p1.longitude = lon(gen);
-		rect.p2.latitude = lat(gen);
-		while (rect.p2.longitude < rect.p1.longitude) {
-			rect.p2.longitude = lon(gen);
-		}
-		
-		rect.p1.latIdx = static_cast<int>((rect.p1.latitude + MAX_LATITUDE) / NAME_PARAMETER);
-		rect.p1.lonIdx = static_cast<int>((rect.p1.longitude + MAX_LONGITUDE) / NAME_PARAMETER);
-		rect.p2.latIdx = static_cast<int>((rect.p1.latitude + MAX_LATITUDE) / NAME_PARAMETER);
-		rect.p2.lonIdx = static_cast<int>((rect.p1.longitude + MAX_LONGITUDE) / NAME_PARAMETER);
 
-		rect.alpha = angle(gen);
-		//rect.fitness = 
-		//int minLat = min(rect.p1.latIdx)
-		//for(int )
+        Rectangle maxRect;
+        float maxSquare = 0;
+        default_random_engine gen(time(0));
+        uniform_real_distribution<float> angle(0, M_PI);
+        uniform_real_distribution<float> randIdx(0, 1.0f);
 
+        for (int i = 0; i < POPULATION_COUNT; ++i) {		
+                //GeoPoint p1 = RandomPointGenerator::GetInstance().GetRandomPoint();
+                //GeoPoint p2 = RandomPointGenerator::GetInstance().GetRandomPoint();
+                /*while (rect.p2.longitude < rect.p1.longitude) {
+                    rect.p2 = RandomPointGenerator::GetInstance().GetRandomPoint();
+                }*/
+                //float alpha = angle(gen);
+
+                //Rectangle rect(p1, p2, alpha);
+                Rectangle rect;
 		population.push_back(rect);
-	
-		rect.distance = (rect.p1.latitude - rect.p2.latitude) * (rect.p1.latitude - rect.p2.latitude) +
-			(rect.p1.longitude - rect.p2.longitude) * (rect.p1.longitude - rect.p2.longitude);
-		rect.square = rect.distance*sin(rect.alpha) / 2.0f;
+                //cout << "Square " << rect.alpha << " " << rect.distance << " " << rect.square << endl;
 
-		rect.fitness = rect.square / MAX_AREA;
-	}
+                //rect.fitness = rect.square / MAX_AREA;
+                if (rect.GetSquare() > maxSquare) {
+                    maxSquare = rect.GetSquare();
+                    maxRect = rect;
+                }
+        }
 
-	cout << "Program finished " << emptyCount << endl;
+        for(int i = 0; i < GENERATION_COUNT; i++) {
+            if (i % GENERATION_LOG) {
+                cout << "Max " << maxSquare << " " << maxRect.p1.latitude << " " << maxRect.p1.longitude
+                     << " " << maxRect.p2.latitude << " " << maxRect.p2.longitude << " "
+                     << maxRect.alpha << endl;
+            }
+
+            nextPopulation.clear();
+            nextPopulation.push_back(maxRect); //one to preserve
+            nextPopulation.push_back(maxRect); //one to mutate
+            int count = 2;
+
+            maxSquare = 0;
+            for (int i = 0; i < POPULATION_COUNT; ++i) {
+
+                int idx1 = randIdx(gen)*POPULATION_COUNT;
+                int idx2 = randIdx(gen)*POPULATION_COUNT;
+
+                if (population[idx1].GetSquare() > population[idx2].GetSquare()) {
+                    nextPopulation.push_back(population[idx1]);
+                } else {
+                    nextPopulation.push_back(population[idx2]);
+                }
+
+                ++count;
+                if (count >= POPULATION_COUNT) {
+                    break;
+                }
+            }
+
+            maxRect = nextPopulation[0];
+            maxSquare = nextPopulation[0].GetSquare();
+            for (int i = 1; i < POPULATION_COUNT; ++i) {
+                float mutation = randIdx(gen);
+                if (mutation > 0.5) {
+                    nextPopulation[i].Mutate();
+                }
+                if (nextPopulation[i].GetSquare() > maxSquare) {
+                    maxSquare = nextPopulation[i].GetSquare();
+                    maxRect = nextPopulation[i];
+                }
+            }
+
+            population.clear();
+            population = nextPopulation;
+        }
+        cout << "Total max " << maxSquare << endl;
+        grid.PrintGrid();
+        cout << "Program finished " << endl;
     return 0;
 }
 

@@ -1,21 +1,15 @@
 #pragma once
 
+#include "GeoObjects.h"
+
 class EarthGrid {
 public:
-	static EarthGrid& GetInstance()
-	{
-		static EarthGrid instance;
-		return instance;
-	}
-       void AddPoint(int, int);
+        EarthGrid(int, int);
+        ~EarthGrid();
+        void AddPoint(GeoPoint);
+        void PrintGrid(void);
 private:
-	EarthGrid();
-	EarthGrid(int, int);
-	~EarthGrid();
-	EarthGrid(const EarthGrid& root);
-	EarthGrid& operator=(const EarthGrid&);
-
-	int* grid;
+        int* grid;
 	int sizeX;
 	int sizeY;
 };

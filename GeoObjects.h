@@ -7,15 +7,30 @@ typedef struct GeoPoint_ {
 	int lonIdx;
 } GeoPoint;
 
-typedef struct Rectangle_ {
-	GeoPoint p1;
-	GeoPoint p2;
-	float alpha;
+class Rectangle {
+public:
+    Rectangle();
+    ~Rectangle();
+
+    float GetSquare(void) const;
+    void Mutate(void);
+
+    GeoPoint p1;
+    GeoPoint p2;
+    float side;
+    //float alpha;
+
+private:
+    /*GeoPoint p1;
+    GeoPoint p2;
+    float alpha;*/
 	
-	//derived parameters
-	GeoPoint p3;
-	GeoPoint p4;
-	float distance;	
-	float square;
-//	float fitness;
-} Rectangle;
+    //derived parameters
+    float alpha;
+    GeoPoint p3;
+    GeoPoint p4;
+    float diagonal;
+    float square;
+    //float fitness;
+};
+

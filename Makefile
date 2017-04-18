@@ -11,7 +11,8 @@ LIBRARY_NAME = lib$(NAME).so
 SRC_MAIN = oracle-test.cpp
 
 SRC_SHARED = EarthGrid.cpp \
-             RandomPointGenerator.cpp
+             RandomPointGenerator.cpp \
+             GeoObjects.cpp
 
 SRC = $(SRC_SHARED) $(SRC_MAIN)
 
