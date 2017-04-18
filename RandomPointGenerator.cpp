@@ -1,4 +1,5 @@
 #include <random>
+#include <iostream>
 #include "RandomPointGenerator.h"
 #include "EarthConstants.h"
 #include "ProjectDefines.h"
@@ -7,14 +8,10 @@ using namespace std;
 using namespace earth_constants;
 using namespace project_defines;
 
-RandomPointGenerator::RandomPointGenerator() {
-	random_device rd;
-	mt19937 gen(rd());
-	uniform_real_distribution<> lat(-MAX_LATITUDE, MAX_LATITUDE);
-	uniform_real_distribution<> lon(-MAX_LONGITUDE, MAX_LONGITUDE);
+RandomPointGenerator::RandomPointGenerator() : gen(), lat(-MAX_LATITUDE, MAX_LATITUDE), lon(-MAX_LONGITUDE, MAX_LONGITUDE) {
 }
 
-RandomPointGenerator::GeoPoint GetRandomPoint() {
+GeoPoint RandomPointGenerator::GetRandomPoint() {
 	GeoPoint p = { 0,0 };
 
 	p.latitude = lat(gen);

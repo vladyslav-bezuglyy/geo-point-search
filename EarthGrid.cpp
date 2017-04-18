@@ -1,4 +1,6 @@
 #include <random>
+#include <iostream>
+#include <cassert>
 #include "EarthGrid.h"
 #include "EarthConstants.h"
 #include "ProjectDefines.h"
@@ -12,7 +14,7 @@ EarthGrid::EarthGrid(int sizeX_, int sizeY_) : sizeX(sizeX_), sizeY(sizeY_) {
 		cout << "Initialize Earth grid" << endl;
 	}
 	grid = new int[sizeX_*sizeY_];
-	for (int i = 0; i < sizeX_*sizeY_) {
+	for (int i = 0; i < sizeX_*sizeY_; ++i) {
 		grid[i] = 0;
 	}
 }
@@ -21,7 +23,7 @@ EarthGrid::~EarthGrid() {
 	delete[] grid;
 }
 
-EarthGrid::AddPoint(int iX, intiY) {
-	assert(ix >= 0 && ix < sizeX && iy >= 0 && iy < sizeY);
-	++grid[ix][iy];
+void EarthGrid::AddPoint(int iX, int iY) {
+	assert(iX >= 0 && iX < sizeX && iY >= 0 && iY < sizeY);
+	//++grid[ix][iy];
 }

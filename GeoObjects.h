@@ -1,13 +1,13 @@
 #pragma once
 
-typedef struct GeoPoint {
+typedef struct GeoPoint_ {
 	float latitude;
 	float longitude;
 	int latIdx;
 	int lonIdx;
-};
+} GeoPoint;
 
-typedef struct Rectangle {
+typedef struct Rectangle_ {
 	GeoPoint p1;
 	GeoPoint p2;
 	float alpha;
@@ -18,4 +18,4 @@ typedef struct Rectangle {
 	float distance;	
 	float square;
 //	float fitness;
-};
+} Rectangle;

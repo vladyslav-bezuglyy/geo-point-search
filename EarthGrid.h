@@ -2,18 +2,20 @@
 
 class EarthGrid {
 public:
-	static const EarthGrid& GetInstance()
+	static EarthGrid& GetInstance()
 	{
 		static EarthGrid instance;
-		return intstance;
+		return instance;
 	}
+       void AddPoint(int, int);
 private:
 	EarthGrid();
+	EarthGrid(int, int);
 	~EarthGrid();
 	EarthGrid(const EarthGrid& root);
 	EarthGrid& operator=(const EarthGrid&);
 
-	int** grid;
+	int* grid;
 	int sizeX;
 	int sizeY;
 };
