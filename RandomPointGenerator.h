@@ -12,7 +12,7 @@ public:
 	}
 	GeoPoint GetRandomPoint();
 private:
-	RandomPointGenerator();
+        RandomPointGenerator() {};
 	RandomPointGenerator(const RandomPointGenerator& root);
 	RandomPointGenerator& operator=(const RandomPointGenerator&);
 

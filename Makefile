@@ -8,7 +8,7 @@ NAME = sample
 BINARY_NAME = $(NAME)
 LIBRARY_NAME = lib$(NAME).so
 
-SRC_MAIN = oracle-test.cpp
+SRC_MAIN = Sample.cpp
 
 SRC_SHARED = EarthGrid.cpp \
              RandomPointGenerator.cpp \
