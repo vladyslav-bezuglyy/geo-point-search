@@ -33,7 +33,6 @@ int main()
 		}
 	}
 
-
         population.reserve(POPULATION_COUNT);
 	nextPopulation.reserve(POPULATION_COUNT);
 
@@ -44,15 +43,8 @@ int main()
         uniform_real_distribution<float> randIdx(0, 1.0f);
 
         for (int i = 0; i < POPULATION_COUNT; ++i) {		
-                //GeoPoint p1 = RandomPointGenerator::GetInstance().GetRandomPoint();
-                //GeoPoint p2 = RandomPointGenerator::GetInstance().GetRandomPoint();
-                /*while (rect.p2.longitude < rect.p1.longitude) {
-                    rect.p2 = RandomPointGenerator::GetInstance().GetRandomPoint();
-                }*/
-                //float alpha = angle(gen);
-
-                //Rectangle rect(p1, p2, alpha);
                 Rectangle rect;
+                //rect.Print();
 		population.push_back(rect);
                 //cout << "Square " << rect.alpha << " " << rect.distance << " " << rect.square << endl;
 
@@ -65,9 +57,8 @@ int main()
 
         for(int i = 0; i < GENERATION_COUNT; i++) {
             if (i % GENERATION_LOG) {
-                cout << "Max " << maxSquare << " " << maxRect.p1.latitude << " " << maxRect.p1.longitude
-                     << " " << maxRect.p2.latitude << " " << maxRect.p2.longitude << " "
-                     << maxRect.alpha << endl;
+                cout << "Max " << maxSquare <<endl;
+                maxRect.Print();
             }
 
             nextPopulation.clear();

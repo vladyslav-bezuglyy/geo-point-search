@@ -14,19 +14,14 @@ public:
 
     float GetSquare(void) const;
     void Mutate(void);
+    void Print(void);
 
     GeoPoint p1;
     GeoPoint p2;
-    float side;
-    //float alpha;
-
-private:
-    /*GeoPoint p1;
-    GeoPoint p2;
-    float alpha;*/
-	
-    //derived parameters
     float alpha;
+
+private:	
+    //derived parameters
     GeoPoint p3;
     GeoPoint p4;
     float diagonal;
