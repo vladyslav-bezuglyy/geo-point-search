@@ -1,10 +1,10 @@
 #pragma once
 
 typedef struct GeoPoint_ {
-	float latitude;
-	float longitude;
-	int latIdx;
-	int lonIdx;
+    float latitude;
+    float longitude;
+    int latIdx;
+    int lonIdx;
 } GeoPoint;
 
 enum FitnessType {
@@ -30,7 +30,7 @@ public:
     GeoPoint p2;
     float alpha;
 
-private:	
+private:
     //derived parameters
     GeoPoint p3;
     GeoPoint p4;

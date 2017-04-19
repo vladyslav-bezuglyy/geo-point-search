@@ -11,17 +11,17 @@ using namespace earth_constants;
 using namespace project_defines;
 
 EarthGrid::EarthGrid() : sizeX(2*MAX_LONGITUDE / GRID_SIZE), sizeY(2*MAX_LATITUDE / GRID_SIZE) {
-        if (IS_DEBUG) {
-                cout << "Initialize Earth grid " << sizeX << " " << sizeY << endl;
-        }
-        grid = new int[sizeX*sizeY];
-        for (int i = 0; i < sizeX*sizeY; ++i) {
-		grid[i] = 0;
-	}
+    if (IS_DEBUG) {
+            cout << "Initialize Earth grid " << sizeX << " " << sizeY << endl;
+    }
+    grid = new int[sizeX*sizeY];
+    for (int i = 0; i < sizeX*sizeY; ++i) {
+        grid[i] = 0;
+    }
 }
 
 EarthGrid::~EarthGrid() {
-	delete[] grid;
+    delete[] grid;
 }
 
 void EarthGrid::AddPoint(GeoPoint p) {

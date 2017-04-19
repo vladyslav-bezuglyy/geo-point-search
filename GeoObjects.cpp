@@ -23,7 +23,7 @@ Rectangle::Rectangle(FitnessType fitType_) {
     static uniform_real_distribution<float> angle(0, M_PI);
 
     fitType = fitType_;
-    while(true) {        
+    while(true) {
         p1 = RandomPointGenerator::GetInstance().GetRandomPoint();
         p2 = RandomPointGenerator::GetInstance().GetRandomPoint();
         if (p2.longitude >= p1.longitude) {
