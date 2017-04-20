@@ -9,7 +9,8 @@ typedef struct GeoPoint_ {
 
 enum FitnessType {
     MAX_EMPTY_RECTANGLE,
-    MIN_FILLED_RECTANGLE
+    MIN_FILLED_RECTANGLE,
+    FITNESS_TYPE_COUNT
 };
 
 class Rectangle {

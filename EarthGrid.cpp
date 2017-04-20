@@ -28,7 +28,7 @@ void EarthGrid::AddPoint(GeoPoint p) {
     int iX = p.lonIdx;
     int iY = p.latIdx;
     if (iY*sizeX + iX >= sizeX*sizeY) {
-        cout << "Error " << p.latitude << " " << p.longitude << " " << iY << " " << iX << endl;
+        //Possible that random generate value of right boundary - bug in STL
         if (iX >= sizeX) {
             iX = sizeX - 1;
         }

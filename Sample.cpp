@@ -1,10 +1,12 @@
 #include <iostream>
 #include <cmath>
 #include <climits>
+#include <cstdlib>
 
 #include "ProjectDefines.h"
 #include "EarthGrid.h"
 #include "EarthConstants.h"
+#include "GeoObjects.h"
 #include "RandomPointGenerator.h"
 
 using namespace std;
@@ -13,9 +15,17 @@ using namespace earth_constants;
 
 vector<Rectangle> population;
 vector<Rectangle> nextPopulation;
+FitnessType fitType = MAX_EMPTY_RECTANGLE;
 
-int main()
+int main(int argc, char* argv[])
 {
+    if (argc > 1) {
+        fitType = static_cast<FitnessType>(strtol(argv[1], NULL, 10));
+    }
+    if (fitType >= FITNESS_TYPE_COUNT) {
+        fitType = MAX_EMPTY_RECTANGLE;
+    }
+    cout << "Fitness type " << fitType << endl;
     cout << "Generating points..." << endl;
 
     for (int i = 0; i < NUM_POINTS; ++i) {

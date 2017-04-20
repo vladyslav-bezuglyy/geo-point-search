@@ -78,6 +78,7 @@ float Rectangle::GetPointCount(void) const {
 }
 
 bool Rectangle::InThis(GeoPoint point) const {
+   //Check the area of the triangles and compare it the area of the rectangle
 
 
     float a = sqrt((point.longitude - p1.longitude)*(point.longitude - p1.longitude) +
@@ -130,11 +131,13 @@ void Rectangle::Mutate(void) {
     static uniform_real_distribution<float> randPos(-2.0f, 2.0f);
 
     while(true) {
-        alpha += randAngle(gen);
-        if (alpha > M_PI) {
-            alpha -= M_PI;
-        } else if (alpha < 0) {
-            alpha += M_PI;
+        if (randIdx(gen) > 0.5) {
+            alpha += randAngle(gen);
+            if (alpha > M_PI) {
+                alpha -= M_PI;
+            } else if (alpha < 0) {
+                alpha += M_PI;
+            }
         }
 
         p1.latitude += randPos(gen);
