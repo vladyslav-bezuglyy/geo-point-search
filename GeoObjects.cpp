@@ -13,11 +13,6 @@ using namespace std;
 using namespace earth_constants;
 using namespace project_defines;
 
-namespace {
-    const float REQUIRED_FRACTION = 0.3f;
-    const float REQUIRED_TOLERANCE = 0.025f;
-}
-
 Rectangle::Rectangle(FitnessType fitType_) {
     static default_random_engine gen(time(0));
     static uniform_real_distribution<float> angle(0, M_PI);
@@ -236,7 +231,7 @@ void Rectangle::CalcFitness(void) {
                 }
             }
         }
-        fitness += (pointCount);
+        fitness += ((static_cast<float>(pointCount))/NUM_POINTS)*CONSTRAINT_COEFF;
         break;
     }
     case MIN_FILLED_RECTANGLE: {
@@ -261,11 +256,11 @@ void Rectangle::CalcFitness(void) {
                 }
             }
         }
-        float tolerance = fabs(pointCount / NUM_POINTS - REQUIRED_FRACTION);
+        float tolerance = fabs((static_cast<float>(pointCount)) / NUM_POINTS - REQUIRED_FRACTION);
         if (tolerance > REQUIRED_TOLERANCE) {
-            fitness += (100);
+            fitness += (10.0f*CONSTRAINT_COEFF);
         } else {
-            fitness += (tolerance/REQUIRED_TOLERANCE);
+            fitness += (CONSTRAINT_COEFF * (tolerance/REQUIRED_TOLERANCE));
         }
 
         break;

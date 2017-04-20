@@ -49,8 +49,7 @@ int main(int argc, char* argv[])
 
     cout << "Generating initial population..." << endl;
     for (int i = 0; i < POPULATION_COUNT; ++i) {
-        Rectangle rect(MAX_EMPTY_RECTANGLE);
-        //Rectangle rect(MIN_FILLED_RECTANGLE);
+        Rectangle rect(fitType);
         population.push_back(rect);
         if (rect.GetFitness() < bestFitness) {
             square = rect.GetSquare();
@@ -68,7 +67,7 @@ int main(int argc, char* argv[])
         nextPopulation.push_back(bestRect); //one to preserve
         nextPopulation.push_back(bestRect); //one to mutate
 
-        Rectangle randomRect(MAX_EMPTY_RECTANGLE); //one random
+        Rectangle randomRect(fitType); //one random
         nextPopulation.push_back(randomRect);
 
         int count = 3;
